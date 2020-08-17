@@ -26,6 +26,8 @@ jobs:
       - name: Set an initial tag
         run: echo '::set-env name=initialTag::chromium:alpine-${{ matrix.alpine-version }}'
       - run: docker build -t $initialTag $buildDir
+      - name: Show the Chromium version
+        run: docker run $initialTag sh -c '$CHROME_BIN --version'
       - name: Tag and push
         run: |
           name=$user/chromium

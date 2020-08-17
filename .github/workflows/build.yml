@@ -11,7 +11,10 @@ jobs:
           - 3.12
     steps:
       - uses: actions/checkout@v2
-      - run: docker login -u "${{ secrets.DOCKER_USERNAME }}" -p "${{ secrets.DOCKER_PASSWORD }}"
+      - run: echo $password | docker login -u $user --password-stdin
+        env:
+          user: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Set the build directory
         run: echo '::set-env name=buildDir::alpine/${{ matrix.alpine-version }}'
       - name: Set an initial tag

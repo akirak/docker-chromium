@@ -23,6 +23,8 @@ jobs:
       - name: Set a tag for the version
         run: |
           version=$(docker run $initialTag sh -c '$CHROME_BIN --version' | grep -o -E '[[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+')
-          echo "::set-env name=newTag::chromium:$version-alpine"
+          echo "::set-env name=newTag::$user/chromium:$version-alpine"
+        env:
+          user: ${{ secrets.DOCKER_USERNAME }}
       - run: docker tag $initialTag $newTag
       - run: docker push $newTag

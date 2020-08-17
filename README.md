@@ -2,7 +2,7 @@
 
 ![build](https://github.com/akirak/docker-chromium/workflows/build/badge.svg)
 
-This repository provides Alpine Linux images containing only a specific version of Chromium. It is intended for use with [Puppeteer](https://github.com/puppeteer/puppeteer), a browser automation library for JavaScript. Each Puppeteer version must be combined with [its corresponding version](https://github.com/puppeteer/puppeteer/blog/main/docs/api.md) of Chromium, and this image enables that.
+This repository provides Alpine Linux images containing only a specific version of Chromium. It is intended for use with [Puppeteer](https://github.com/puppeteer/puppeteer), a browser automation library for JavaScript. Each Puppeteer version must be combined with [its corresponding version](https://github.com/puppeteer/puppeteer/blob/main/docs/api.md) of Chromium, and this image enables that.
 
 The image name is `akirak/chromium`, and tags are created from the version of Chromium and the distribution, e.g.
 

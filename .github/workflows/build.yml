@@ -24,11 +24,10 @@ jobs:
         run: |
           name=$user/chromium
           vvv=$(docker run $initialTag sh -c '$CHROME_BIN --version' | grep -o -E '[[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+')
-          vv=$(echo $vvv | grep -o -E '^[[:digit:]]+\.[[:digit:]]+')
           v=$(echo $vvv | grep -o -E '^[[:digit:]]+')
           tags=()
-          for version in $vvv $vv $v; do
-            tags+=("$name:$version-alpine" "$name:$version")
+          for version in $vvv $v; do
+            tags+=("$name:$version-alpine")
           done
           for tag in ${tags[*]}; do
             docker tag $initialTag $tag

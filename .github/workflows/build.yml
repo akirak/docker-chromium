@@ -1,0 +1,37 @@
+name: build
+
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        alpine-version:
+          - 3.12
+    steps:
+      - uses: actions/checkout@v2
+      - run: echo $password | docker login -u $user --password-stdin
+        env:
+          user: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Set the build directory
+        run: echo '::set-env name=buildDir::alpine/${{ matrix.alpine-version }}'
+      - name: Set an initial tag
+        run: echo '::set-env name=initialTag::chromium:alpine-${{ matrix.alpine-version }}'
+      - run: docker build -t $initialTag $buildDir
+      - name: Tag and push
+        run: |
+          name=$user/chromium
+          vvv=$(docker run $initialTag sh -c '$CHROME_BIN --version' | grep -o -E '[[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+')
+          v=$(echo $vvv | grep -o -E '^[[:digit:]]+')
+          tags=()
+          for version in $vvv $v; do
+            tags+=("$name:$version-alpine")
+          done
+          for tag in ${tags[*]}; do
+            docker tag $initialTag $tag
+          done
+          docker push $name
+        env:
+          user: ${{ secrets.DOCKER_USERNAME }}

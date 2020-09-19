@@ -11,3 +11,10 @@ RUN apk add --no-cache --update chromium \
         ttf-freefont
 RUN rm -rf /var/cache/apk
 ENV CHROME_BIN /usr/bin/chromium-browser
+
+# Options for chromium
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
+# npm is not supposed to run inside this container, so this is
+# unnecessary.
+#
+# ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true

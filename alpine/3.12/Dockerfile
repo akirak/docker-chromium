@@ -18,3 +18,13 @@ ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
 # unnecessary.
 #
 # ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+
+# Create chromium user
+# as in https://github.com/puppeteer/puppeteer/blob/main/docs/troubleshooting.md#running-on-alpine
+# but 'chromium' user, not 'pptruser'
+RUN addgroup -S chromium && adduser -S -g chromium chromium \
+    && mkdir -p /home/chromium/Downloads /app \
+    && chown -R chromium:chromium /home/chromium \
+    && chown -R chromium:chromium /app
+
+USER chromium
